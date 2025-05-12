@@ -1,16 +1,18 @@
-package lest.dev.MovieFlix.Category;
+package lest.dev.MovieFlix.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Builder
 @Entity
-@Table(name = "category")
+@Table(name = "streaming")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Category {
+public class Streaming {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
