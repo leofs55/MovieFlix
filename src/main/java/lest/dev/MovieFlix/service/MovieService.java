@@ -1,8 +1,6 @@
 package lest.dev.MovieFlix.service;
 
-import lest.dev.MovieFlix.entity.Category;
 import lest.dev.MovieFlix.entity.Movie;
-import lest.dev.MovieFlix.entity.Streaming;
 import lest.dev.MovieFlix.repository.MovieRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -29,8 +27,13 @@ public class MovieService {
         return repository.save(body);
     }
 
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public boolean delete(Long id) {
+        Optional<Movie> movie = repository.findById(id);
+        if (movie.isPresent()){
+            repository.delete(movie.orElse(null));
+            return true;
+        }
+        return false;
     }
 
 }

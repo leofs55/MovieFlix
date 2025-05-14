@@ -1,11 +1,8 @@
 package lest.dev.MovieFlix.service;
 
 import lest.dev.MovieFlix.controller.request.StreamingRequest;
-import lest.dev.MovieFlix.controller.response.StreamingResponse;
-import lest.dev.MovieFlix.entity.Movie;
 import lest.dev.MovieFlix.entity.Streaming;
 import lest.dev.MovieFlix.mapper.StreamingMapper;
-import lest.dev.MovieFlix.repository.CategoryRepository;
 import lest.dev.MovieFlix.repository.StreamingRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,25 +16,28 @@ public class StreamingService {
 
     private final StreamingRepository repository;
 
-    public List<StreamingResponse> list() {
+    public List<Streaming> list() {
         List<Streaming> streamingList = repository.findAll();
-        return streamingList.stream()
-                .map(StreamingMapper::map)
-                .toList();
+        return streamingList;
     }
 
-    public StreamingResponse find(Long id) {
+    public Optional<Streaming> find(Long id) {
         Optional<Streaming> streaming = repository.findById(id);
-        return StreamingMapper.map(streaming.orElse(null));
+        return streaming;
     }
 
-    public StreamingResponse create(StreamingRequest body) {
+    public Streaming create(StreamingRequest body) {
         Streaming streaming = StreamingMapper.map(body);
-        return StreamingMapper.map(repository.save(streaming));
+        return repository.save(streaming);
     }
 
-    public void delete(Long id) {
-        repository.deleteById(id);
+    public boolean delete(Long id) {
+        Optional<Streaming> streaming = repository.findById(id);
+        if (streaming.isPresent()) {
+            repository.deleteById(id);
+            return true;
+        }
+        return false;
     }
 
 }

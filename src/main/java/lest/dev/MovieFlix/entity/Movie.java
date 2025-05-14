@@ -25,23 +25,35 @@ public class Movie {
     private Long id;
 
     @Column(length = 100, nullable = false)
-    private String name;
+    private String title;
 
-    @Column(length = 100, nullable = false)
     private String description;
 
-    @Column
+    @Column(name = "release_date")
     private LocalDate releaseDate;
 
     private double rating;
 
     @CreationTimestamp
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
+    @Column(name = "updated_at")
     private LocalDateTime updateAt;
 
-//    private List<Category> categories;
+    @ManyToMany
+    @JoinTable(name = "movie_category",
+    joinColumns = @JoinColumn(name = "movie_id"),
+    inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
 
-//    private List<Streaming> streamings;
+
+    @ManyToMany
+    @JoinTable(name = "movie_streaming",
+            joinColumns = @JoinColumn(name = "movie_id"),
+            inverseJoinColumns = @JoinColumn(name = "streaming_id")
+    )
+    private List<Streaming> streamings;
 }
