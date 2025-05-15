@@ -16,6 +16,6 @@ spring:
     enable: true
     locations: classpath:db/migration
 
-  movieflix:
-    security:
-      secret: ${SECRET_HASH}
+movieflix:
+  security:
+    secret: ${SECRET_HASH}

@@ -29,7 +29,7 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponse> resgister(@RequestBody UserResquest user) {
+    public ResponseEntity<UserResponse> register(@RequestBody UserResquest user) {
         User userMap = UserMapper.map(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(UserMapper.map(service.save(userMap)));
     }
