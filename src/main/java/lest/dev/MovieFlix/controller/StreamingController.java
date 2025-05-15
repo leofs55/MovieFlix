@@ -44,7 +44,7 @@ public class StreamingController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<StreamingResponse> patch(@PathVariable Long id, StreamingRequest body) {
+    public ResponseEntity<StreamingResponse> patch(@PathVariable Long id, @RequestBody StreamingRequest body) {
         Streaming streaming = StreamingMapper.map(body);
         return service.patch(id, streaming)
                 .map(streamingSaved -> ResponseEntity.ok(StreamingMapper.map(streamingSaved)))

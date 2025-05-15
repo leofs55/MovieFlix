@@ -48,7 +48,7 @@ public class CategoryController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<CategoryResponse> patch(@PathVariable Long id, CategoryRequest body) {
+    public ResponseEntity<CategoryResponse> patch(@PathVariable Long id, @RequestBody CategoryRequest body) {
         Category category = CategoryMapper.map(body);
         return service.patch(id, category)
                 .map(categorySaved -> ResponseEntity.ok(CategoryMapper.map(categorySaved)))
