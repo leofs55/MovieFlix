@@ -31,6 +31,17 @@ public class CategoryService {
         return repository.save(category);
     }
 
+    public Optional<Category> patch(Long id, Category body) {
+        Optional<Category> categoryOptional = repository.findById(id);
+        if (categoryOptional.isPresent()) {
+            Category category = categoryOptional.get();
+            if (body.getId() != null) category.setId(body.getId());
+            if (body.getName() != null) category.setName(body.getName());
+            return Optional.of(repository.save(category));
+        }
+        return Optional.empty();
+    }
+
     public boolean delete(Long id) {
         Optional<Category> category = repository.findById(id);
         if (category.isPresent()) {

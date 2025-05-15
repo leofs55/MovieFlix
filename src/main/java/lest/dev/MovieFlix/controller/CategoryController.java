@@ -1,8 +1,13 @@
 package lest.dev.MovieFlix.controller;
 
 import lest.dev.MovieFlix.controller.request.CategoryRequest;
+import lest.dev.MovieFlix.controller.request.StreamingRequest;
 import lest.dev.MovieFlix.controller.response.CategoryResponse;
+import lest.dev.MovieFlix.controller.response.StreamingResponse;
+import lest.dev.MovieFlix.entity.Category;
+import lest.dev.MovieFlix.entity.Streaming;
 import lest.dev.MovieFlix.mapper.CategoryMapper;
+import lest.dev.MovieFlix.mapper.StreamingMapper;
 import lest.dev.MovieFlix.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -40,6 +45,14 @@ public class CategoryController {
             return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<CategoryResponse> patch(@PathVariable Long id, CategoryRequest body) {
+        Category category = CategoryMapper.map(body);
+        return service.patch(id, category)
+                .map(categorySaved -> ResponseEntity.ok(CategoryMapper.map(categorySaved)))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")

@@ -16,13 +16,20 @@ public class MovieMapper {
 
     public static Movie map(MovieRequest movieRequest) {
 
-        List<Category> categoryList = movieRequest.categories().stream()
-                .map(id -> Category.builder().id(id).build())
-                .toList();
+        List<Category> categoryList = List.of();
+        List<Streaming> streamingList = List.of();
 
-        List<Streaming> streamingList = movieRequest.streamings().stream()
-                .map(id -> Streaming.builder().id(id).build())
-                .toList();
+        if (movieRequest.categories() != null){
+            categoryList = movieRequest.categories().stream()
+                    .map(id -> Category.builder().id(id).build())
+                    .toList();
+        }
+
+        if (movieRequest.streamings() != null) {
+            streamingList = movieRequest.streamings().stream()
+                    .map(id -> Streaming.builder().id(id).build())
+                    .toList();
+        }
 
         return Movie
                 .builder()
@@ -47,6 +54,7 @@ public class MovieMapper {
 
         return MovieResponse
                 .builder()
+                .id(movie.getId())
                 .title(movie.getTitle())
                 .description(movie.getDescription())
                 .releaseDate(movie.getReleaseDate())

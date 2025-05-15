@@ -43,6 +43,15 @@ public class StreamingController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<StreamingResponse> patch(@PathVariable Long id, StreamingRequest body) {
+        Streaming streaming = StreamingMapper.map(body);
+        return service.patch(id, streaming)
+                .map(streamingSaved -> ResponseEntity.ok(StreamingMapper.map(streamingSaved)))
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteStreaming(@PathVariable Long id) {
         boolean res = service.delete(id);

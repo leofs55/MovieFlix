@@ -31,6 +31,17 @@ public class StreamingService {
         return repository.save(streaming);
     }
 
+    public Optional<Streaming> patch(Long id, Streaming body){
+        Optional<Streaming> streamingOptional = repository.findById(id);
+        if (streamingOptional.isPresent()) {
+            Streaming streaming = streamingOptional.get();
+            if (body.getName() != null) streaming.setName(body.getName());
+            if (body.getId() != null) streaming.setId(body.getId());
+            return Optional.of(repository.save(streaming));
+        }
+        return Optional.empty();
+    }
+
     public boolean delete(Long id) {
         Optional<Streaming> streaming = repository.findById(id);
         if (streaming.isPresent()) {
