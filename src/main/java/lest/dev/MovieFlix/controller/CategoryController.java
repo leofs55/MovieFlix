@@ -1,5 +1,6 @@
 package lest.dev.MovieFlix.controller;
 
+import jakarta.validation.Valid;
 import lest.dev.MovieFlix.controller.request.CategoryRequest;
 import lest.dev.MovieFlix.controller.request.StreamingRequest;
 import lest.dev.MovieFlix.controller.response.CategoryResponse;
@@ -39,7 +40,8 @@ public class CategoryController {
     }
 
     @PostMapping
-    public ResponseEntity<CategoryResponse> postCategory(@RequestBody CategoryRequest body) {
+    public ResponseEntity<CategoryResponse> postCategory(@Valid
+                                                         @RequestBody CategoryRequest body) {
         CategoryResponse categoryResponse = CategoryMapper.map(service.create(body));
         if (categoryResponse != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(categoryResponse);

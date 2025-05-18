@@ -6,12 +6,14 @@ import lest.dev.MovieFlix.controller.request.UserResquest;
 import lest.dev.MovieFlix.controller.response.LoginResponse;
 import lest.dev.MovieFlix.controller.response.UserResponse;
 import lest.dev.MovieFlix.entity.User;
+import lest.dev.MovieFlix.exceptions.UsernameOrPasswordInvalidException;
 import lest.dev.MovieFlix.mapper.UserMapper;
 import lest.dev.MovieFlix.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,13 +38,17 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest login) {
-        UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(login.email(), login.password());
-        Authentication authentication = authenticationManager.authenticate(userAndPass);
+        try{
+            UsernamePasswordAuthenticationToken userAndPass = new UsernamePasswordAuthenticationToken(login.email(), login.password());
+            Authentication authentication = authenticationManager.authenticate(userAndPass);
 
-        User user = (User) authentication.getPrincipal();
+            User user = (User) authentication.getPrincipal();
 
-        return ResponseEntity.ok(LoginResponse.builder()
-                                            .token(tokenService.generateToken(user))
-                                            .build());
+            return ResponseEntity.ok(LoginResponse.builder()
+                    .token(tokenService.generateToken(user))
+                    .build());
+        } catch (BadCredentialsException e) {
+            throw new UsernameOrPasswordInvalidException("Usuário ou senha inválido");
+        }
     }
 }

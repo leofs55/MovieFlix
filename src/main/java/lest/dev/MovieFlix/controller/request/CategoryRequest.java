@@ -1,4 +1,6 @@
 package lest.dev.MovieFlix.controller.request;
 
-public record CategoryRequest(String name) {
+import jakarta.validation.constraints.NotEmpty;
+
+public record CategoryRequest(@NotEmpty(message = "Insert a value for category!") String name) {
 }

@@ -1,5 +1,6 @@
 package lest.dev.MovieFlix.controller;
 
+import jakarta.validation.Valid;
 import lest.dev.MovieFlix.controller.request.StreamingRequest;
 import lest.dev.MovieFlix.controller.response.StreamingResponse;
 import lest.dev.MovieFlix.entity.Streaming;
@@ -35,7 +36,8 @@ public class StreamingController {
     }
 
     @PostMapping
-    public ResponseEntity<StreamingResponse> postStreaming(@RequestBody StreamingRequest body) {
+    public ResponseEntity<StreamingResponse> postStreaming(@Valid
+                                                           @RequestBody StreamingRequest body) {
         Streaming streaming = service.create(body);
         if (streaming != null) {
             return ResponseEntity.status(HttpStatus.CREATED).body(StreamingMapper.map(streaming));

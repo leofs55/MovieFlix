@@ -1,5 +1,6 @@
 package lest.dev.MovieFlix.controller;
 
+import jakarta.validation.Valid;
 import lest.dev.MovieFlix.controller.request.MovieRequest;
 import lest.dev.MovieFlix.controller.response.MovieResponse;
 import lest.dev.MovieFlix.entity.Movie;
@@ -36,13 +37,15 @@ public class MovieController {
     }
 
     @PostMapping
-    public ResponseEntity<MovieResponse> postMovie(@RequestBody MovieRequest body) {
+    public ResponseEntity<MovieResponse> postMovie(@Valid
+                                                   @RequestBody MovieRequest body) {
         Movie movie = MovieMapper.map(body);
         return ResponseEntity.ok(MovieMapper.map(service.create(movie)));
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<MovieResponse> patchMovie(@PathVariable Long id, @RequestBody MovieRequest body) {
+    public ResponseEntity<MovieResponse> patchMovie(@PathVariable Long id,@Valid
+                                                                          @RequestBody MovieRequest body) {
         Movie movie = MovieMapper.map(body);
         return service.patch(id, movie)
                 .map(movieSaved -> ResponseEntity.ok(MovieMapper.map(movieSaved)))

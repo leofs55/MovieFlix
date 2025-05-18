@@ -8,7 +8,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import lest.dev.MovieFlix.entity.User;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.yaml.snakeyaml.tokens.Token;
 
 import java.time.Instant;
 import java.util.Optional;
